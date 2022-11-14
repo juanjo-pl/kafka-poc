@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2022-11-14_01" author="juan.garcia" runOnChange="false">
+        <comment>First table</comment>
+        <sql>
+            CREATE TABLE book (
+                id uuid PRIMARY KEY,
+                created_at TIMESTAMPTZ,
+                updated_at TIMESTAMPTZ,
+                version INTEGER default 0 NOT NULL,
+                deleted boolean not null default false,
+                title VARCHAR NOT NULL,
+                author VARCHAR NOT NULL
+            );
+        </sql>
+        <rollback>
+            <sql>
+                DROP TABLE IF EXISTS book;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
