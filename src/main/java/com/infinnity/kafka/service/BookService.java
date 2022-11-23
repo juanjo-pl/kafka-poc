@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @RequiredArgsConstructor
@@ -23,10 +24,10 @@ public class BookService {
 
 
     public void createBook() {
-        var now = ZonedDateTime.now();
-        var book = new Book(new BookId(), now, now, 0, false, "tilte", "author");
+        var now = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC"));
+        var book = new Book(new BookId(), now, now, 0, false, "title", "author");
         var createdBook = springDataBookRepository.save(book);
-        log.info("Created book={}", createdBook);
+        log.debug("Created book={}", createdBook);
 
         applicationEventPublisher.publishEvent(new BookEvent(createdBook));
     }

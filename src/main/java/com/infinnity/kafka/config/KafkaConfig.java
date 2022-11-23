@@ -36,7 +36,10 @@ public class KafkaConfig {
     public NewTopic bookTableTopic() {
         return TopicBuilder.name(topicNameProvider.bookTableTopic())
                 .partitions(3)
-                .replicas(1)
+                .replicas(3)
+                // Default is one generally, but it's configured in the broker
+                .config(TopicConfig.MIN_IN_SYNC_REPLICAS_CONFIG, "1")
+                .config(TopicConfig.RETENTION_MS_CONFIG, "-1")
                 .config(TopicConfig.CLEANUP_POLICY_CONFIG, CLEANUP_POLICY_COMPACT)
                 .build();
     }

@@ -13,7 +13,7 @@ public class BookServiceGenerator {
 
     private final BookService bookService;
 
-    @Scheduled(fixedRate = 2000L)
+    @Scheduled(fixedRateString = "${kafka-poc.bookServiceGenerator.fixedRate:2000}")
     public void createBook() {
         bookService.createBook();
     }
