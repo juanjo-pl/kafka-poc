@@ -25,6 +25,7 @@ public class BookTableMessage implements TableMessage {
 
     private String title;
     private String author;
+    private int year;
 
     @Override
     public String getKey() {

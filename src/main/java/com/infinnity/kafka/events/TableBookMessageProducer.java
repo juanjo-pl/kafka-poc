@@ -29,6 +29,6 @@ public class TableBookMessageProducer {
         var bookMessage = bookMapper.toMessage(book);
         log.debug("Before sending bookMessage: {} deleted={}", bookMessage, bookMessage.isDeleted());
         kafkaTemplate.send(topicNameProvider.bookTableTopic(), bookMessage.getKey(), bookMessage);
-        log.debug("Sent bookMessage: {} deleted={}", bookMessage, bookMessage.isDeleted());
+        log.info("Sent bookMessage:  bookId={}, deleted={}", bookMessage.getId(), bookMessage.isDeleted());
     }
 }

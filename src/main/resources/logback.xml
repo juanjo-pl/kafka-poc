@@ -1,6 +1,11 @@
 <configuration>
     <property name="HOME_LOG" value="log"/>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
@@ -21,7 +26,7 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="com.infinnity.kafka" level="INFO" additivity="false">
+    <logger name="com.infinnity.kafka" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>

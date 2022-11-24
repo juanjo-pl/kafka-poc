@@ -15,6 +15,7 @@ public class BookMapper {
                 .version(book.getVersion())
                 .title(book.getTitle())
                 .author(book.getAuthor())
+                .year(book.getYear())
                 .build();
     }
 }

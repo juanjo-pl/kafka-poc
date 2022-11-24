@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 		<testcontainers.version>1.17.3</testcontainers.version>
 		<moneta.version>1.4.2</moneta.version>
+		<java.faker>1.0.2</java.faker>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -52,6 +53,11 @@
 			<optional>true</optional>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -83,6 +89,11 @@
 				<artifactId>moneta</artifactId>
 				<version>${moneta.version}</version>
 				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>com.github.javafaker</groupId>
+				<artifactId>javafaker</artifactId>
+				<version>${java.faker}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

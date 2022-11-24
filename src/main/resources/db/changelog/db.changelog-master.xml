@@ -3,5 +3,5 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
 
-    <include file="db/changelog/2022/2022-11-14_CREATE_BOOK_TABLE.xml"/>
+    <include file="db/changelog/2022/2022-11-22_CREATE_BOOK_TABLE.xml"/>
 </databaseChangeLog>

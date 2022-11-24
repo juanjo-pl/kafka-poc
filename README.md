@@ -31,7 +31,14 @@ kafka-topics.sh --bootstrap-server ${BOOSTRAP_SERVERS} --describe --topic ${KAFK
 kafka-configs.sh --bootstrap-server ${BOOSTRAP_SERVERS} --alter --topic ${KAFKA_TOPIC} --add-config min.insync.replicas=1
 
 # Change partitions
-kafka-topics.sh --bootstrap-server ${BOOSTRAP_SERVERS} --alter --topic ${KAFKA_TOPIC} --partitions 6
+kafka-topics.sh --bootstrap-server ${BOOSTRAP_SERVERS} --alter --topic ${KAFKA_TOPIC} --partitions 20
+
+kafka-configs.sh --bootstrap-server ${BOOSTRAP_SERVERS} --alter --topic ${KAFKA_TOPIC} --add-config max.compaction.lag.ms=10000 
+kafka-configs.sh --bootstrap-server ${BOOSTRAP_SERVERS} --alter --topic ${KAFKA_TOPIC} --add-config min.cleanable.dirty.ratio=0.0 
+kafka-configs.sh --bootstrap-server ${BOOSTRAP_SERVERS} --alter --topic ${KAFKA_TOPIC} --add-config segment.ms=10000
+kafka-configs.sh --bootstrap-server ${BOOSTRAP_SERVERS} --alter --topic ${KAFKA_TOPIC} --add-config delete.retention.ms=10000
+
+--config min.cleanable.dirty.ratio=0.0 --config segment.ms=10000 --config delete.retention.ms=10000
 ```
 
 ## References 

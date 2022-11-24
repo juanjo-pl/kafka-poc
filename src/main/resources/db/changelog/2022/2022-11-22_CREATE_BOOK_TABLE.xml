@@ -13,9 +13,10 @@
                 created_at TIMESTAMPTZ,
                 updated_at TIMESTAMPTZ,
                 version INTEGER default 0 NOT NULL,
-                deleted boolean not null default false,
+                deleted boolean NOT NULL default false,
                 title VARCHAR NOT NULL,
-                author VARCHAR NOT NULL
+                author VARCHAR NOT NULL,
+                year integer
             );
         </sql>
         <rollback>

@@ -35,8 +35,8 @@ public class KafkaConfig {
     @Bean
     public NewTopic bookTableTopic() {
         return TopicBuilder.name(topicNameProvider.bookTableTopic())
-                .partitions(3)
                 .replicas(3)
+                .partitions(6)
                 // Default is one generally, but it's configured in the broker
                 .config(TopicConfig.MIN_IN_SYNC_REPLICAS_CONFIG, "1")
                 .config(TopicConfig.RETENTION_MS_CONFIG, "-1")
@@ -57,11 +57,8 @@ public class KafkaConfig {
     }
 
     private <K, V> void setupProducerFactory(DefaultKafkaProducerFactory<K, V> factory) {
-//        var transactionIdPrefix = properties.getProducer().getTransactionIdPrefix();
-//        if (transactionIdPrefix != null) {
-//            factory.setTransactionIdPrefix(transactionIdPrefix);
-//        }
         factory.setKeySerializer(new ToStringSerializer<>());
         factory.setValueSerializer(new JsonSerializer<>(kafkaObjectMapper));
+
     }
 }
