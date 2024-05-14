@@ -3,6 +3,7 @@ package com.infinnity.kafka.service;
 import com.github.javafaker.Faker;
 import com.infinnity.kafka.domain.Book;
 import com.infinnity.kafka.domain.BookId;
+import com.infinnity.kafka.events.BookAsyncEvent;
 import com.infinnity.kafka.events.BookEvent;
 import com.infinnity.kafka.repository.SpringDataBookRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,20 +31,28 @@ public class BookService {
         return random.nextInt(max - 1500) + 1500;
     }
 
-    public void createBook() {
+    public Book createBook() {
+        var createdBook = createBookInDB();
+        applicationEventPublisher.publishEvent(new BookEvent(createdBook));
+        return createdBook;
+    }
+
+    public Book createBookAsync() {
+        var createdBook = createBookInDB();
+        applicationEventPublisher.publishEvent(new BookAsyncEvent(createdBook));
+        return createdBook;
+    }
+
+    private Book createBookInDB() {
         var now = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC"));
-        var generatedBook = faker.book();
+        var fakerBook = faker.book();
         var book = Book.builder()
                 .id(new BookId())
-                .title(generatedBook.title())
-                .author(generatedBook.author())
+                .title(fakerBook.title())
+                .author(fakerBook.author())
                 .year(getRandomNumber(now.getYear()))
                 .build();
-
-        var createdBook = springDataBookRepository.save(book);
-        log.debug("Created bookId={}", createdBook.getId());
-
-        applicationEventPublisher.publishEvent(new BookEvent(createdBook));
+        return springDataBookRepository.save(book);
     }
 
 }

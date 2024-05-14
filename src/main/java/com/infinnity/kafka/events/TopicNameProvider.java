@@ -10,4 +10,5 @@ public class TopicNameProvider {
     public String bookTableTopic() {
         return BOOK_TABLE_TOPIC;
     }
+
 }
