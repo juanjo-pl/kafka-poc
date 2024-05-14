@@ -4,10 +4,18 @@
 
 ## Consumer
 ```shell
+# Creates book with Kafka publishing
 BOOSTRAP_SERVERS=localhost:9093,localhost:9094,localhost:9095
 KAFKA_TOPIC=table.book
 
 kcat -C -b ${BOOSTRAP_SERVERS} -K"\t" -t ${KAFKA_TOPIC} -o beginning -e 
+
+
+# Creates book with async Kafka publishing 
+BOOSTRAP_SERVERS=localhost:9093,localhost:9094,localhost:9095
+KAFKA_TOPIC=table.book-async
+
+kcat -C -b ${BOOSTRAP_SERVERS} -K"\t" -t ${KAFKA_TOPIC} -o beginning 
 ```
 
 ## Kafka UI
@@ -39,6 +47,40 @@ kafka-configs.sh --bootstrap-server ${BOOSTRAP_SERVERS} --alter --topic ${KAFKA_
 kafka-configs.sh --bootstrap-server ${BOOSTRAP_SERVERS} --alter --topic ${KAFKA_TOPIC} --add-config delete.retention.ms=10000
 
 --config min.cleanable.dirty.ratio=0.0 --config segment.ms=10000 --config delete.retention.ms=10000
+```
+
+
+## Endpoints 
+
+###  POST /api/books
+It will create a book, after saving and before publishing to Kafka there is a delay, 
+so the request response will be delayed as well.
+
+```sh
+curl --location --request POST 'localhost:8007/api/books' | jq
+```
+###  POST /api/async/books
+It will create a book, after saving and before publishing to Kafka topic there is a delay,
+but because it is async, publishing is done in a different thread, so the request response will be not delayed
+
+```sh
+curl --location --request POST 'localhost:8007/api/async/books' | jq
+```
+
+### POST /api/books/republish?limit=10
+
+It will find all books ordered by createdAt, modify the title and publish them to Kafka topic. 
+
+```sh
+curl --location --request POST 'localhost:8007/api/books/republish?limit=10' | jq
+```
+
+### POST /api/async/books/republish?limit=10
+
+It will find all books ordered by createdAt, modify the title and publish them to Kafka topic.
+
+```sh
+curl --location --request POST 'localhost:8007/api/async/books/republish?limit=10' | jq
 ```
 
 ## References 

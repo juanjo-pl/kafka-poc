@@ -6,6 +6,7 @@ import com.infinnity.kafka.mapper.BookMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -15,14 +16,15 @@ import java.util.concurrent.TimeUnit;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class TableBookMessageProducer {
+public class TableBookAsyncMessageProducer {
 
     private final TopicNameProvider topicNameProvider;
     private final KafkaTemplate<String, BookTableMessage> kafkaTemplate;
     private final BookMapper bookMapper;
 
+    @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void handleEvent(BookEvent event) {
+    public void handleEvent(BookAsyncEvent event) {
         publishBookTableMessage(event.book());
     }
 
@@ -39,7 +41,6 @@ public class TableBookMessageProducer {
         }
         kafkaTemplate.send(topic, bookMessage.getKey(), bookMessage);
         log.info("[{}] Sent bookMessage:  bookId={}, deleted={}", topic, bookMessage.getId(), bookMessage.isDeleted());
-        log.info("[{}] Finish method:  bookId={}, deleted={}", topic, bookMessage.getId(), bookMessage.isDeleted());
     }
 
 }

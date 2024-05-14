@@ -24,7 +24,7 @@ public class KafkaConfig {
     private final TopicNameProvider topicNameProvider;
     private final ObjectMapper kafkaObjectMapper;
 
-    public KafkaConfig(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") KafkaProperties properties,
+    public KafkaConfig(KafkaProperties properties,
                        TopicNameProvider topicNameProvider,
                        ObjectMapper kafkaObjectMapper) {
         this.properties = properties;
@@ -35,7 +35,7 @@ public class KafkaConfig {
     @Bean
     public NewTopic bookTableTopic() {
         return TopicBuilder.name(topicNameProvider.bookTableTopic())
-                .replicas(3)
+                .replicas(2)
                 .partitions(6)
                 // Default is one generally, but it's configured in the broker
                 .config(TopicConfig.MIN_IN_SYNC_REPLICAS_CONFIG, "1")
